@@ -10,3 +10,32 @@ module.exports = function(app, swig) {
         res.send(respuesta);
     });
 };
+app.get('/autores/:id', function (req, res) {
+    let respuesta = 'id: ' + req.params.id;
+    res.send(respuesta);
+});
+
+module.exports = function (app, swig) {
+    app.get("/autores", function (req, res) {
+        let autores = [{
+            "nombre": "Mac Miller",
+            "grupo" : "Mac Miller",
+            "rol": "Cantante"
+        },{
+            "nombre": "Ringo Star",
+            "grupo" : "Beattles",
+            "rol": "Bateria"
+        }, {
+            "nombre": "Dimitri Vegas",
+            "grupo" : "Dimitri Vegas & Like Mike",
+            "rol": "Teclista"
+        }];
+
+        let respuesta = swig.renderFile('views/autores.html', {
+            vendedor: 'Lista de autores',
+            canciones:  autores
+        });
+        res.send(respuesta);
+    });
+
+};
