@@ -1,6 +1,14 @@
 //Modulos
 let express = require('express');
 let app = express();
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
+let crypto = require('crypto');
 let fileUpload = require('express-fileupload');
 app.use(fileUpload());
 let swig = require('swig');
@@ -15,6 +23,8 @@ gestorBD.init(app,mongo);
 // Variables
 app.set('port', 8081);
 app.set('db','mongodb+srv://admin:admin@cluster0-ftswg.mongodb.net/test?retryWrites=true&w=majority');
+app.set('clave','abcdefg');
+app.set('crypto',crypto);
 
 //Rutas/controladores por lógica
 require("./routes/rusuarios.js")(app, swig,gestorBD); // (app, param1, param2, etc.)
