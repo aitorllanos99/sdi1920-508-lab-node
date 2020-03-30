@@ -67,17 +67,29 @@ routerUsuarioAutor.use(function(req, res, next) {
             if(canciones[0].autor == req.session.usuario ){
                 next();
             } else {
-                res.redirect("/tienda");
+                let criterio = {
+                    usuario : req.session.usuario,
+                    cancionId : mongo.ObjectID(idCancion)
+                };
+
+                gestorBD.obtenerCompras(criterio ,function(compras){
+                    if (compras != null && compras.length > 0 ){
+                        next();
+                    } else {
+                        res.redirect("/tienda");
+                    }
+                });
             }
         })
 });
 //Aplicar routerUsuarioAutor
 app.use("/cancion/modificar",routerUsuarioAutor);
 app.use("/cancion/eliminar",routerUsuarioAutor);
-
+app.use("/cancion/comprar",routerUsuarioSession);
+app.use("/compras",routerUsuarioSession);
 // Variables
 app.set('port', 8081);
-app.set('db','mongodb+srv://admin:admin@cluster0-ftswg.mongodb.net/test?retryWrites=true&w=majority');
+app.set('db','mongodb://admin:admin@cluster0-shard-00-00-ftswg.mongodb.net:27017,cluster0-shard-00-01-ftswg.mongodb.net:27017,cluster0-shard-00-02-ftswg.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority');
 app.set('clave','abcdefg');
 app.set('crypto',crypto);
 
