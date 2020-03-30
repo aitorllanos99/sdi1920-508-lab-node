@@ -74,13 +74,13 @@ module.exports = function (app, swig, gestorBD) {
                     let imagen = req.files.portada;
                     imagen.mv('public/portadas/' + cancionId + '.png', function (err) {
                         if (err) {
-                            res.send("Error al subir la portada");
+                            res.redirect("/publicaciones");
                         } else {
                             if (req.files.audio != null) {
                                 let audio = req.files.audio;
                                 audio.mv('public/audios/' + id + '.mp3', function (err) {
                                     if (err) {
-                                        res.send("Error al subir el audio");
+                                        res.redirect("/publicaciones");
                                     } else {
                                         res.send("Agregada id: " + id);
                                     }
@@ -155,7 +155,7 @@ module.exports = function (app, swig, gestorBD) {
                     if (result == null) {
                         res.send("Error en la modificación");
                     } else {
-                        res.send("Modificado");
+                        res.redirect("/publicaciones");
                     }
                 });
             }
