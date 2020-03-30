@@ -1,6 +1,6 @@
 //Modulos
 let express = require('express');
-let app = express();
+var app = express();
 let expressSession = require('express-session');
 app.use(expressSession({
     secret: 'abcdefg',
@@ -58,13 +58,14 @@ app.set('db','mongodb+srv://admin:admin@cluster0-ftswg.mongodb.net/test?retryWri
 app.set('clave','abcdefg');
 app.set('crypto',crypto);
 
-//Rutas/controladores por lógica
-require("./routes/rusuarios.js")(app, swig,gestorBD); // (app, param1, param2, etc.)
-require("./routes/rcanciones.js")(app, swig,gestorBD); // (app, param1, param2, etc.)
-require("./routes/rautores.js")(app, swig); // (app, param1, param2, etc.)
 app.get('/promo*', function (req, res) {
     res.send('Respuesta patrón promo* ');
 });
+//Rutas/controladores por lógica
+require("./routes/rcanciones.js")(app, swig,gestorBD); // (app, param1, param2, etc.)
+require("./routes/rusuarios.js")(app, swig,gestorBD); // (app, param1, param2, etc.)
+require("./routes/rautores.js")(app, swig); // (app, param1, param2, etc.)
+
 //Lanzar el servidor
 app.listen(app.get('port'), function () {
     console.log("Servidor activo");
