@@ -108,9 +108,14 @@ app.get('/', function (req, res) {
 
 app.use(function(err,req,res,next){
    console.log("Error producido: " + err);
+    res.renderFile('views/error.html',{
+        error:err
+    });
    if(!res.headersSent){
        res.status(400);
-       res.send("Recurso no disponible");
+       res.renderFile('views/error.html',{
+           error:"Recurso no disponible"
+       });
    }
 });
 //Lanzar el servidor
