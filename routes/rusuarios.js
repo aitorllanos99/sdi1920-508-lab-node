@@ -8,9 +8,17 @@ module.exports = function (app, swig, gestorBD) {
         res.send(respuesta);
     });
     app.get("/identificarse", function (req, res) {
-        let respuesta = swig.renderFile('views/bidentificacion.html', {});
-        res.send(respuesta);
-    });
+            if (req.session.error != null) {
+                let respuesta = swig.renderFile('views/bidentificacion.html', {
+                    errorS: req.session.error
+                });
+                res.send(respuesta);
+            } else {
+                let respuesta = swig.renderFile('views/bidentificacion.html', {});
+                res.send(respuesta);
+            }
+        }
+    );
 
     app.post('/usuario', function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -38,12 +46,16 @@ module.exports = function (app, swig, gestorBD) {
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 req.session.usuario = null;
-                res.redirect("/identificarse" +
-                    "?mensaje=Email o password incorrecto"+
-                    "&tipoMensaje=alert-danger ");
+                let errorS = {
+                    tipoMensaje: "alert-danger",
+                    mensaje: "Credenciales incorrectas"
+                };
+                req.session.error = errorS;
+                res.redirect("/identificarse");
 
             } else {
                 req.session.usuario = usuarios[0].email;
+                req.session.error = null;
                 res.redirect("/publicaciones");
             }
         });
@@ -52,9 +64,9 @@ module.exports = function (app, swig, gestorBD) {
         req.session.usuario = null;
         res.send("Usuario desconectado");
     });
-    app.get("/error", function (req,res) {
-        let respuesta = swig.renderFile('views/error.html',{
-            error:"Error"
+    app.get("/error", function (req, res) {
+        let respuesta = swig.renderFile('views/error.html', {
+            error: "Error"
         });
     });
 };
