@@ -46,7 +46,8 @@
             console.log(respuesta); // <-- Prueba
             $("#contenedor-principal").load("widget-canciones.html");
         }, error: function (error) {
-            $("#contenedor-principal").load("widget-login.html");
+            $("#div-errores").show();
+            $("#div-errores").text("Error: " + error.responseJSON.error);
         }
     });
 } </script>
