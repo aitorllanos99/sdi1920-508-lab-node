@@ -9,17 +9,66 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+
+<!-- Barra de Navegación superior -->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li id="mTienda" class="active"><a href="/tienda">Tienda</a></li>
+                <li id="mPublicaciones"><a href="/publicaciones">Publicaciones</a></li>
+                <li id="mCompras"><a href="/compras">Compras</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
+                <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
 <div class="container">
+    <!-- Busqueda -->
+    <div class="row">
+        <div id="custom-search-input ">
+            <form method="get" action="/tienda" >
+                <div
+                        class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
+                    <input type="text" class="search-query form-control"
+                           placeholder="Nombre de la canción" name="busqueda"/>
+                    <span class="input-group-btn">
+						<button class="btn" type="submit">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <h2>Autores</h2>
     <div class="row">
-        <!-- Inicio del Bloque autores  -->
+
+        <!-- http://librosweb.es/libro/bootstrap_3/capitulo_2/tipos_de_rejillas.html -->
+        <!-- Inicio del Bloque canción  -->
         {% for autor in autores %}
         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
             <div style="width:200px">
-                <a href="/cancion/id">
-                    <img src="/img/user.png" alt="logo"/>
+                <a href="/autor/id">
+                    <!-- http://www.socicon.com/generator.php -->
                     <div>{{ autor.nombre }} </div>
-                    <div class="small">{{ autor.genero }} </div>
+                    <div class="small">{{ autor.grupo }} </div>
                     <div class="text-right">{{ autor.rol }}</div>
                 </a>
             </div>
@@ -45,3 +94,4 @@
 
 </body>
 </html>
+
